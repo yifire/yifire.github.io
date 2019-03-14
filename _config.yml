@@ -81,4 +81,15 @@ deploy:
   type: git
   repository: https://github.com/yifire/yifire.github.io.git
   branch: master
-  
+
+symbols_count_time:
+  symbols: true
+  time: true
+  total_symbols: true
+  total_time: true
+
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
