@@ -416,15 +416,16 @@
       
         
           
-            <h1 id="记录一个在工作中实际遇到的问题。"><a href="#记录一个在工作中实际遇到的问题。" class="headerlink" title="记录一个在工作中实际遇到的问题。"></a>记录一个在工作中实际遇到的问题。</h1><h2 id="环境描述："><a href="#环境描述：" class="headerlink" title="环境描述："></a>环境描述：</h2><p><strong>有许多要序列化的对象，对象中有个字段引用了其他对象或者被其他对象引用了。在序列化之前已经先通过装饰器进行标记，将那个字段给去除不参与序列化。</strong>  </p>
-<h2 id="结果描述："><a href="#结果描述：" class="headerlink" title="结果描述："></a>结果描述：</h2><p><strong>进行</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JSON.stringify(obj);</span><br></pre></td></tr></table></figure></p>
+            <p><strong>记录一个在工作中实际遇到的问题。</strong>  </p>
+<h1 id="环境描述："><a href="#环境描述：" class="headerlink" title="环境描述："></a>环境描述：</h1><p><strong>有许多要序列化的对象，对象中有个字段引用了其他对象或者被其他对象引用了。在序列化之前已经先通过装饰器进行标记，将那个字段给去除不参与序列化。</strong>  </p>
+<h1 id="结果描述："><a href="#结果描述：" class="headerlink" title="结果描述："></a>结果描述：</h1><p><strong>进行</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JSON.stringify(obj);</span><br></pre></td></tr></table></figure></p>
 <p><strong>提示</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;TypeError: Converting circular structure to JSON&quot;；</span><br></pre></td></tr></table></figure></p>
-<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p><strong>经过搜索，此错误是由于循环引用产生的，但是原因何在？</strong>  </p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p><strong>经过搜索，此错误是由于循环引用产生的，但是原因何在？</strong>  </p>
 <p><strong>里面应该已经不存在循环引用的内容了，因为已经通过装饰器的去除了，并且再检查了一遍装饰器是正常工作的。</strong></p>
-<h2 id="动手"><a href="#动手" class="headerlink" title="动手"></a>动手</h2><p><strong>打开控制台进行调试，将断点设置在未去除字段之前，内容看图：</strong>  </p>
+<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p><strong>打开控制台进行调试，将断点设置在未去除字段之前，内容看图：</strong>  </p>
 <p><img src="/img/stringify-JSON-1.png" alt="调试1">  </p>
-<p><strong>多出了一个莫名其妙的 “<strong>ob</strong>“ 的字段。再往深处查原来的对象,内容看图：</strong><br><img src="/img/stringify-JSON-2.png" alt="调试2">  </p>
-<p><strong>“<strong>ob</strong>“存在在这个对象里面，还是个Observer，</strong>  </p>
+<p><strong>多出了一个莫名其妙的 “__ob__“ 的字段。再往深处查原来的对象,内容看图：</strong><br><img src="/img/stringify-JSON-2.png" alt="调试2">  </p>
+<p><strong>“__ob__“存在在这个对象里面，还是个Observer，</strong>  </p>
 <p><strong>经过思考和搜索，确定了这个原因是Vue自己给我加进去的，想起之前Vue的data里面的对象都会被强行插入set和get方法。原因就大致懂了，因为这边的对象通过Vue的bus进行传输过，应该是在这个过程中被插入的。</strong></p>
 <p><strong>知道问题所在，解决就简单了，将这个字段去除后再进行序列化就没问题了。</strong></p>
 <p><strong>这个坑虽然没有多大难度，只要深入调试一下必定可以发现的这个字段，主要是思考为什么会出现这个字段才是比较重要的。</strong></p>
