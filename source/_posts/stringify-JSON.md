@@ -16,6 +16,8 @@ sticky:
 
 # 结果描述：
 
+<!--more-->
+
 **进行**    
 ```
 JSON.stringify(obj);
