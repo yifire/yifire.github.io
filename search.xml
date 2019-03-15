@@ -8,7 +8,9 @@
         <category>踩坑</category>
       </categories>
       <tags>
-        <tag>JSON stringify 循环引用</tag>
+        <tag>JSON</tag>
+        <tag>stringify</tag>
+        <tag>循环引用</tag>
       </tags>
   </entry>
 </search>
