@@ -2,13 +2,14 @@
 title: 关于vue的event bus遇到的坑
 copyright: true
 comments: true
-date: 2019-05-24 16:25:43
 tags:
- - vue
- - bus
- - $off
- - 多次触发
+  - vue
+  - bus
+  - $off
+  - 多次触发
 categories: 踩坑
+abbrlink: '17742746'
+date: 2019-05-24 16:25:43
 description:
 sticky:
 ---
